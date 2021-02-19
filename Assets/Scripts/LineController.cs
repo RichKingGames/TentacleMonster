@@ -35,8 +35,16 @@ public class LineController : MonoBehaviour
             {
                 UpdateLine(tempFingerPos);
             }
-
+            else if(Vector3.Distance(_fingerPositions[_fingerPositions.Count - 1], _fingerPositions[_fingerPositions.Count - 2]) < .1f)
+            {
+                
+            }
         }
+        if (Input.GetMouseButtonUp(0))
+        {
+            _tentacle.TentacleMove(_fingerPositions);
+        }
+
     }
 
     /// <summary>
@@ -67,7 +75,7 @@ public class LineController : MonoBehaviour
         if (_plane.Raycast(mRay, out rayDistance))
         {     
             pos = mRay.GetPoint(rayDistance);
-            pos.y = 0.2f;
+            pos.y = 0.1f;
         }
         return pos;
     }
@@ -79,6 +87,9 @@ public class LineController : MonoBehaviour
         _fingerPositions.Add(newFingerPos);
         _lineRenderer.positionCount++;
         _lineRenderer.SetPosition(_lineRenderer.positionCount-1, newFingerPos);
-        _tentacle.TentacleMove(newFingerPos,_lineRenderer.positionCount-1);
+
+        //_tentacle.TentacleMove(_fingerPositions);
+
+        //_tentacle.TentacleMove(newFingerPos,_lineRenderer.positionCount-1);
     }
 }
