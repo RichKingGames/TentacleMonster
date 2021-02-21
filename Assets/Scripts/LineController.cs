@@ -35,7 +35,7 @@ public class LineController : MonoBehaviour
             {
                 UpdateLine(tempFingerPos);
             }
-            else if(Vector3.Distance(_fingerPositions[_fingerPositions.Count - 1], _fingerPositions[_fingerPositions.Count - 2]) < .1f)
+            else if(Vector3.Distance(_fingerPositions[_fingerPositions.Count - 1], _fingerPositions[_fingerPositions.Count - 2]) < .05f)
             {
                 
             }

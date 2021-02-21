@@ -534,6 +534,7 @@ PlayerSettings:
   webGLThreadsSupport: 0
   scriptingDefineSymbols:
     1: DREAMTECK_SPLINES
+    7: DREAMTECK_SPLINES
   platformArchitecture: {}
   scriptingBackend: {}
   il2cppCompilerConfiguration: {}

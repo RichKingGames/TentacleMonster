@@ -40,20 +40,28 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: ac47b1452eaff584193292ee02f0540d, type: 3}
-        m_Scale: {x: 2, y: 20}
-        m_Offset: {x: 0, y: 10}
+        m_Texture: {fileID: 2800000, guid: 16c809966eead4a4aba9741a5fe1cccd, type: 3}
+        m_Scale: {x: 3, y: 3}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex1:
+        m_Texture: {fileID: 2800000, guid: 88d28a3e43fdd7e4299d1c53494673fc, type: 3}
+        m_Scale: {x: 3, y: 3}
+        m_Offset: {x: 0, y: 0}
+    - _MaskTex:
+        m_Texture: {fileID: 2800000, guid: 2a1eb2cea00ba0b45bb46f9a7aed01e6, type: 3}
+        m_Scale: {x: 3, y: 3}
+        m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal:
         m_Texture: {fileID: 2800000, guid: a69d6c4bce217cb46b2a29fe2e9413bb, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Scale: {x: 3, y: 3}
         m_Offset: {x: 0, y: 0}
     - _Occlusion:
         m_Texture: {fileID: 2800000, guid: ac47b1452eaff584193292ee02f0540d, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Scale: {x: 3, y: 3}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
@@ -65,7 +73,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _PulseTex:
         m_Texture: {fileID: 2800000, guid: ac47b1452eaff584193292ee02f0540d, type: 3}
-        m_Scale: {x: 3, y: 20}
+        m_Scale: {x: 3, y: 3}
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BumpScale: 1
@@ -73,13 +81,13 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _GlossMapScale: 1
-    - _Glossiness: 0.603
+    - _Glossiness: 0.744
     - _GlossyReflections: 1
-    - _Metallic: 1
+    - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _PulseAmount: 0.5
+    - _PulseAmount: 0
     - _PulsePeriod: 1
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -88,4 +96,5 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 0.7075472, g: 0.2236116, b: 0.56724626, a: 1}
+    - _Color1: {r: 0, g: 1, b: 0.9614372, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
