@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class StaticHuman : Human
 {
-    // Start is called before the first frame update
+    
     void Start()
     {
-        
+        this.SetState(HumanState.Idle);
     }
 
     // Update is called once per frame

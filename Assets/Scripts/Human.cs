@@ -2,9 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum HumanState
+{
+    Idle,
+    RunningOut
+}
 public class Human : MonoBehaviour
 {
-
+    public HumanState State { get; private set; }
 
     void Start()
     {
@@ -16,4 +21,9 @@ public class Human : MonoBehaviour
     {
         
     }
+    public void SetState(HumanState state)
+    {
+        State = state;
+    }
 }
+

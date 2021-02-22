@@ -14,7 +14,7 @@ public class LineController : MonoBehaviour
     [SerializeField] private TentacleController _tentacle;
 
     private LineRenderer _lineRenderer;
-    private List<Vector3> _fingerPositions;
+    private static List<Vector3> _fingerPositions;
 
     private Plane _plane;
     void Start()
@@ -92,4 +92,9 @@ public class LineController : MonoBehaviour
 
         //_tentacle.TentacleMove(newFingerPos,_lineRenderer.positionCount-1);
     }
+    public static List<Vector3> GetPositions()
+    {
+        return _fingerPositions;
+    }
+        
 }

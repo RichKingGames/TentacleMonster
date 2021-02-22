@@ -10,14 +10,27 @@ public class TentacleController : MonoBehaviour
 
     [SerializeField] private SplineComputer _splineComputer;
     [SerializeField] private Spline _spline;
+    [SerializeField] private LayerMask _humanMask;
 
     private Coroutine _coroutine = null;
 
     Animation anim;
     Animator animator;
-    
-    
 
+
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.layer == _humanMask)
+        {
+            TentacleMoveBack(collision.gameObject);
+        }
+
+    }
+    public void TentacleMoveBack(GameObject human)
+    {
+        StartCoroutine(TentacleCoroutineDecrease(human));
+    }
     /// <summary>
     /// Method that Move Tentacle.
     /// </summary>
@@ -41,6 +54,19 @@ public class TentacleController : MonoBehaviour
         //}
         
     }
+    IEnumerator TentacleCoroutineDecrease(GameObject human)
+
+    {
+        while(human.transform.position != LevelManager.StartPoint)
+        {
+            SplinePoint[] points = _splineComputer.GetPoints();
+            SplinePoint[] newPoints = new SplinePoint[_splineComputer.pointCount-1];
+            human.transform.position = _splineComputer.GetPointPosition(_splineComputer.pointCount);
+            _splineComputer.SetPoints(newPoints);
+            yield return new WaitForFixedUpdate();
+        }
+        
+    }
     IEnumerator TentacleCoroutineGrowing(List<Vector3> movePositions)
     {
         int i = 2;
@@ -53,6 +79,7 @@ public class TentacleController : MonoBehaviour
             point.size = ((float)(movePositions.Count - i) / movePositions.Count) * START_SIZE;
             _splineComputer.SetPoint(i, point);
             i++;
+            
             yield return new WaitForFixedUpdate();
         }
         //_coroutine = null;

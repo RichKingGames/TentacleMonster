@@ -12,6 +12,8 @@ public class FieldOfView : MonoBehaviour
 	[SerializeField] private LayerMask _targetMask;
 	[SerializeField] private LayerMask _obstacleMask;
 
+	[SerializeField] private Human currentHuman;
+
 	[HideInInspector]
 	public List<Transform> visibleTargets = new List<Transform>();
 
@@ -28,9 +30,20 @@ public class FieldOfView : MonoBehaviour
 		viewMesh.name = "View Mesh";
 		viewMeshFilter.mesh = viewMesh;
 
-		StartCoroutine(FindTargetsWithDelay( .2f));
+		//StartCoroutine(FindTargetsWithDelay( .2f));
 	}
+	private void FixedUpdate()
+	{
+		if(currentHuman.State==HumanState.Idle)
+		{
+			FindVisibleTargets();
+			DrawFieldOfView();
+		}
+		else if(currentHuman.State == HumanState.RunningOut)
+		{
 
+		}
+	}
 
 	IEnumerator FindTargetsWithDelay(float delay)
 	{
@@ -41,32 +54,44 @@ public class FieldOfView : MonoBehaviour
 		}
 	}
 
-	void LateUpdate()
-	{
-		DrawFieldOfView();
-	}
+	//void LateUpdate()
+	//{
+	//	//DrawFieldOfView();
+	//}
 
 	void FindVisibleTargets()
 	{
 		visibleTargets.Clear();
 		Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, _viewRadius, _targetMask);
+		List<Vector3> tentaclePositions = LineController.GetPositions();
 
-		for (int i = 0; i < targetsInViewRadius.Length; i++)
+		if(tentaclePositions!= null && targetsInViewRadius!=null)
 		{
-			Transform target = targetsInViewRadius[i].transform;
-			Vector3 dirToTarget = (target.position - transform.position).normalized;
-			if (Vector3.Angle(transform.forward, dirToTarget) < _viewAngle / 2)
+			for (int i = 0; i < tentaclePositions.Count-1; i++)
 			{
-				float dstToTarget = Vector3.Distance(transform.position, target.position);
-				if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, _obstacleMask))
+				Vector3 target = tentaclePositions[i];//targetsInViewRadius[i].transform;
+				Vector3 dirToTarget = (target - transform.position).normalized;
+				if (Vector3.Angle(transform.forward, dirToTarget) < _viewAngle / 2)
 				{
-					this.StopCoroutine(FindTargetsWithDelay(0.2f));
-					visibleTargets.Add(target);
+					float dstToTarget = Vector3.Distance(transform.position, target);
+					if (Physics.Raycast(transform.position, dirToTarget, _viewRadius, _targetMask))
+					{
+						targetsInViewRadius[i].gameObject.GetComponent<TentacleController>().TentacleMoveBack(this.gameObject);
+						Debug.Log("COLLISION");
+						currentHuman.SetState(HumanState.RunningOut);
+						//visibleTargets.Add(target);
+					}
 				}
 			}
 		}
+		
 	}
 
+	Vector3 ClosestPosition()
+	{
+		
+		return new Vector3();
+	}
 	void DrawFieldOfView()
 	{
 		int stepCount = Mathf.RoundToInt(_viewAngle * meshResolution);
