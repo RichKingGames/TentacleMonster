@@ -5,9 +5,10 @@ using UnityEngine;
 public class Environment : MonoBehaviour
 {
     private string _prefabPath { get; }
+    public GameObject StartPoint;
     public Environment(string prefabPath)
     {
-
+        _prefabPath = prefabPath;
     }
     // Start is called before the first frame update
     void Start()

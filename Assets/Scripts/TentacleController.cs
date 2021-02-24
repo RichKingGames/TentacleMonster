@@ -11,12 +11,15 @@ public class TentacleController : MonoBehaviour
     [SerializeField] private SplineComputer _splineComputer;
     [SerializeField] private Spline _spline;
     [SerializeField] private LayerMask _humanMask;
-
+    [SerializeField] [Range(0,0.2f)]private float _tentacleSpeedBack;
     private Coroutine _coroutine = null;
 
     Animation anim;
     Animator animator;
 
+   
+
+    public GameObject human;
 
 
     private void OnCollisionEnter(Collision collision)
@@ -57,13 +60,25 @@ public class TentacleController : MonoBehaviour
     IEnumerator TentacleCoroutineDecrease(GameObject human)
 
     {
+
         while(human.transform.position != LevelManager.StartPoint)
         {
             SplinePoint[] points = _splineComputer.GetPoints();
-            SplinePoint[] newPoints = new SplinePoint[_splineComputer.pointCount-1];
-            human.transform.position = _splineComputer.GetPointPosition(_splineComputer.pointCount);
+            SplinePoint[] newPoints = new SplinePoint[_splineComputer.pointCount-2];
+            for(int i =0; i<newPoints.Length; i++)
+            {
+                newPoints[i] = points[i];
+            }
+
+            human.transform.position = _splineComputer.GetPointPosition(_splineComputer.pointCount-1);
             _splineComputer.SetPoints(newPoints);
-            yield return new WaitForFixedUpdate();
+            
+            if(Vector3.Distance(human.transform.position, LevelManager.StartPoint) < 0.5f)
+            {
+                Destroy(human);
+                StopAllCoroutines();
+            }
+            yield return new WaitForSeconds(_tentacleSpeedBack);
         }
         
     }
@@ -79,9 +94,18 @@ public class TentacleController : MonoBehaviour
             point.size = ((float)(movePositions.Count - i) / movePositions.Count) * START_SIZE;
             _splineComputer.SetPoint(i, point);
             i++;
+            if(i==movePositions.Count-1)
+            {
+                if (Vector3.Distance(movePositions[i], human.transform.position) < 1f)
+                {
+                    StopAllCoroutines();
+                    TentacleMoveBack(human);
+                }
+            }
             
             yield return new WaitForFixedUpdate();
         }
+        
         //_coroutine = null;
 
     }

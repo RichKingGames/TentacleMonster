@@ -9,7 +9,9 @@ public enum HumanState
 }
 public class Human : MonoBehaviour
 {
+    [SerializeField]private FieldOfView _fieldOfView;
     public HumanState State { get; private set; }
+    
 
     void Start()
     {

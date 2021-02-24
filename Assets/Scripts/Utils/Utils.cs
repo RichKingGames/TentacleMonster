@@ -20,6 +20,7 @@ public class Utils : MonoBehaviour
     }
     private static Level MakeLevel1()
     {
+
         return new Level(new Human[] { }, new TentacleController(), new Environment("temp"));
     }
     public static int GetAngleFromVector(Vector3 dir)

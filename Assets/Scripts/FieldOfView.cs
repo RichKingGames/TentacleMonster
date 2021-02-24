@@ -24,6 +24,11 @@ public class FieldOfView : MonoBehaviour
 	public MeshFilter viewMeshFilter;
 	Mesh viewMesh;
 
+	public FieldOfView(float viewRadius, float viewAngle)
+	{
+		_viewRadius = viewRadius;
+		_viewAngle = viewAngle;
+	}
 	void Start()
 	{
 		viewMesh = new Mesh();
@@ -76,7 +81,7 @@ public class FieldOfView : MonoBehaviour
 					float dstToTarget = Vector3.Distance(transform.position, target);
 					if (Physics.Raycast(transform.position, dirToTarget, _viewRadius, _targetMask))
 					{
-						targetsInViewRadius[i].gameObject.GetComponent<TentacleController>().TentacleMoveBack(this.gameObject);
+						//targetsInViewRadius[i].gameObject.GetComponent<TentacleController>().TentacleMoveBack(this.gameObject);
 						Debug.Log("COLLISION");
 						currentHuman.SetState(HumanState.RunningOut);
 						//visibleTargets.Add(target);

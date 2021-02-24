@@ -17,6 +17,8 @@ public class LineController : MonoBehaviour
     private static List<Vector3> _fingerPositions;
 
     private Plane _plane;
+
+    public GameObject human;
     void Start()
     {
          _fingerPositions = new List<Vector3>();
@@ -43,6 +45,11 @@ public class LineController : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             _tentacle.TentacleMove(_fingerPositions);
+            Destroy(_currentLine);
+        }
+        if(Input.GetMouseButtonDown(1))
+        {
+            
         }
 
     }
