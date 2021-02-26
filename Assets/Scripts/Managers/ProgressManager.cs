@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class ProgressManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public static JsonLibrary Json;
+    void Awake()
     {
-        
+        Json = new JsonLibrary(Application.persistentDataPath);
+        Json.Read();
     }
 
     // Update is called once per frame

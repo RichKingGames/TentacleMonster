@@ -5,17 +5,22 @@ using UnityEngine;
 public enum HumanState
 {
     Idle,
-    RunningOut
+    RunningOut,
+    Caught
 }
 public class Human : MonoBehaviour
 {
-    [SerializeField]private FieldOfView _fieldOfView;
+    [SerializeField] private FieldOfView _fieldOfView;
+
+    [SerializeField] private Vector3 _startPosition;
+    [HideInInspector] public string PrefabPath { get; }
     public HumanState State { get; private set; }
     
-
-    void Start()
+    
+    public void Start()
     {
-        
+        this.SetState(HumanState.Idle);
+        transform.position = _startPosition;
     }
 
     // Update is called once per frame
@@ -26,6 +31,7 @@ public class Human : MonoBehaviour
     public void SetState(HumanState state)
     {
         State = state;
+        Debug.Log(gameObject.name + " State is: " + State.ToString());
     }
 }
 

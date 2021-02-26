@@ -19,7 +19,7 @@ public class TentacleController : MonoBehaviour
 
    
 
-    public GameObject human;
+    private GameObject[] _humans;
 
 
     private void OnCollisionEnter(Collision collision)
@@ -96,11 +96,16 @@ public class TentacleController : MonoBehaviour
             i++;
             if(i==movePositions.Count-1)
             {
-                if (Vector3.Distance(movePositions[i], human.transform.position) < 1f)
+                for(int j = 0; j< _humans.Length; j++)
                 {
-                    StopAllCoroutines();
-                    TentacleMoveBack(human);
+                    if (Vector3.Distance(movePositions[i], _humans[j].transform.position) < 1f)
+                    {
+                        StopAllCoroutines();
+                        _humans[j].gameObject.GetComponent<Human>().SetState(HumanState.Caught);
+                        TentacleMoveBack(_humans[j]);
+                    }
                 }
+                
             }
             
             yield return new WaitForFixedUpdate();
