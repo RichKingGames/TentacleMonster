@@ -17,11 +17,34 @@ public class TentacleController : MonoBehaviour
     Animation anim;
     Animator animator;
 
-   
 
+    private LevelManager _levelManager;
     private GameObject[] _humans;
 
+    public void Init(LevelManager levelManager, List<ActiveHuman> activeHumans, List<StaticHuman> staticHumans, Vector3 startPosition)
+    {
+        transform.position = startPosition;
+        SetLevelManager(levelManager);
+        SetHumans(activeHumans, staticHumans);
+    }
 
+    public void SetLevelManager(LevelManager levelManager)
+    {
+        _levelManager = levelManager;
+    }
+    public void SetHumans(List<ActiveHuman> activeHumans, List<StaticHuman> staticHumans)
+    {
+        _humans = new GameObject[activeHumans.Count + staticHumans.Count];
+        for (int i = 0; i < activeHumans.Count; i++)
+        {
+            _humans[i] = activeHumans[i].gameObject;
+        }
+        for(int i=activeHumans.Count; i< (staticHumans.Count + activeHumans.Count); i++)
+        {
+            _humans[i] = staticHumans[i - activeHumans.Count].gameObject;
+        }
+       
+    }
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.layer == _humanMask)
@@ -75,6 +98,7 @@ public class TentacleController : MonoBehaviour
             
             if(Vector3.Distance(human.transform.position, LevelManager.StartPoint) < 0.5f)
             {
+                _levelManager.DestroyHumans(human);
                 Destroy(human);
                 StopAllCoroutines();
             }

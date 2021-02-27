@@ -6,8 +6,8 @@ using System.IO;
 
 public class Level : MonoBehaviour
 {
-    public ActiveHuman[] ActiveHumans;
-    public StaticHuman[] StaticHumans;
+    public List<ActiveHuman> ActiveHumans;
+    public List<StaticHuman> StaticHumans;
     public Environment RoomEnvironment;
     //public Level(ActiveHuman[] activeHumans, StaticHuman[] staticHumans, Environment environment)
     //{

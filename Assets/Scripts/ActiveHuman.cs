@@ -32,6 +32,7 @@ public class ActiveHuman : Human
     }
     void MovePosition()
     {
+        transform.LookAt(_nextPoint) ;
         transform.position = Vector3.MoveTowards(transform.position, _nextPoint, _speed * Time.deltaTime);
         if (transform.position == _nextPoint)
         {
