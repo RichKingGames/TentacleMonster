@@ -33,25 +33,21 @@ public class LineController : MonoBehaviour
         if(Input.GetMouseButton(0))
         {
             Vector3 tempFingerPos = RayPosition(_fingerPositions[_fingerPositions.Count-1]);
-            if (Vector3.Distance(tempFingerPos,_fingerPositions[_fingerPositions.Count -1]) > .1f)
+            if (Vector3.Distance(tempFingerPos,_fingerPositions[_fingerPositions.Count -1]) > .1f) // Checking if the finger has moved
             {
                 UpdateLine(tempFingerPos);
             }
-            else if(Vector3.Distance(_fingerPositions[_fingerPositions.Count - 1], _fingerPositions[_fingerPositions.Count - 2]) < .05f)
-            {
-                
-            }
+
         }
         if (Input.GetMouseButtonUp(0))
         {
-            _tentacle.TentacleMove(_fingerPositions);
             Destroy(_currentLine);
         }
-        if(Input.GetMouseButtonDown(1))
-        {
-            
-        }
+    }
 
+    bool CanCreateLine(Vector3 tentaclePos, Vector3 mouseClickPos)
+    {
+        return Vector3.Distance(tentaclePos, mouseClickPos) < 1f;
     }
 
     /// <summary>
@@ -59,15 +55,34 @@ public class LineController : MonoBehaviour
     /// </summary>
     void CreateLine()
     {
-        Vector3 pos = RayPosition(new Vector3());
-        _currentLine = Instantiate(_linePrefab, pos, Quaternion.identity);
-        _lineRenderer = _currentLine.GetComponent<LineRenderer>();
-        _fingerPositions.Clear();
-        _fingerPositions.Add(pos);
-        _fingerPositions.Add(pos);
-        _lineRenderer.SetPosition(0, _fingerPositions[0]);
-        _lineRenderer.SetPosition(1, _fingerPositions[1]);
-        
+        Vector3 pos = RayPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        if(CanCreateLine(LevelManager.StartPoint, pos)) // Checking if finger at start position
+        {
+            _currentLine = Instantiate(_linePrefab, pos, Quaternion.identity);
+            _currentLine.transform.position = pos;
+            _lineRenderer = _currentLine.GetComponent<LineRenderer>();
+            _fingerPositions = new List<Vector3>();
+            _fingerPositions.Add(LevelManager.StartPoint);
+            _fingerPositions.Add(pos);
+            _lineRenderer.SetPosition(0, _fingerPositions[0]);
+            _lineRenderer.SetPosition(1, _fingerPositions[1]);
+            _tentacle.NewAction(_fingerPositions[1]);
+        }
+        else if(CanCreateLine(_fingerPositions[_fingerPositions.Count-1],pos)) // Checking if finger at the end of tentacle
+        {
+            _currentLine = Instantiate(_linePrefab, pos, Quaternion.identity);
+            _currentLine.transform.position = pos;
+            _lineRenderer = _currentLine.GetComponent<LineRenderer>();
+            _fingerPositions.Add(pos);
+
+            _lineRenderer.SetPosition(0, _fingerPositions[_fingerPositions.Count-1]);
+            _lineRenderer.SetPosition(1, _fingerPositions[_fingerPositions.Count - 1]);
+        }
+        else
+        {
+            //TODO Failed Sound/Animation
+        }
+
     }
 
     /// <summary>
@@ -86,19 +101,21 @@ public class LineController : MonoBehaviour
         }
         return pos;
     }
+
     /// <summary>
-    /// Method that draws a line and calls the TentacleController.TentacleMove() method.
+    /// Method invokes when finger moved.  Drawing line and calls the TentacleController.TentacleMove() method.
     /// </summary>
-    void UpdateLine(Vector3 newFingerPos)
+    void UpdateLine(Vector3 newFingerPos) 
     {
         _fingerPositions.Add(newFingerPos);
         _lineRenderer.positionCount++;
         _lineRenderer.SetPosition(_lineRenderer.positionCount-1, newFingerPos);
 
-        //_tentacle.TentacleMove(_fingerPositions);
+        _tentacle.TentacleMove(_fingerPositions);
 
         //_tentacle.TentacleMove(newFingerPos,_lineRenderer.positionCount-1);
     }
+
     public static List<Vector3> GetPositions()
     {
         return _fingerPositions;

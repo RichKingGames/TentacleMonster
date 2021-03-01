@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/// <summary>
+/// Class which Controlling progress.
+/// </summary>
 public class ProgressManager : MonoBehaviour
 {
     public static JsonLibrary Json;
@@ -11,9 +15,4 @@ public class ProgressManager : MonoBehaviour
         Json.Read();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

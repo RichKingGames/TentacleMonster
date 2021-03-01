@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
+/// <summary>
+/// Class  which contain all saves in JSON.
+/// </summary>
 public class JsonLibrary
 {
 	private const int TotalLevels = 1;
@@ -12,6 +15,10 @@ public class JsonLibrary
 	{
 		_fullFileName = Path.Combine(savePath, FileName);
 	}
+
+	/// <summary>
+	/// Method that write in JSON file.
+	/// </summary>
 	public void Write(Info data)
 	{
 		InfoSerializer serializer = new InfoSerializer();
@@ -20,9 +27,13 @@ public class JsonLibrary
 			serializer.SerializeToFile(sw, data);
 		}
 	}
+
+	/// <summary>
+	/// Method that Read from JSON file.
+	/// </summary>
 	public Info Read()
 	{
-		if (!File.Exists(_fullFileName))
+		if (!File.Exists(_fullFileName)) // Checkin if we have json file.
 		{
 			NewPlayer();
 		}
@@ -35,6 +46,10 @@ public class JsonLibrary
 		return data;
 	}
 
+
+	/// <summary>
+	/// Method that create all information about levels, progress etc.
+	/// </summary>
 	public void NewPlayer()
 	{
 		List<string> levels = new List<string>();
@@ -50,6 +65,9 @@ public class JsonLibrary
 		Write(data);
 	}
 
+	/// <summary>
+	/// Method that check what is current level(no completed)
+	/// </summary>
 	public string GetLevelPrefabName()
 	{
 		NewPlayer();

@@ -4,35 +4,20 @@ using UnityEngine;
 using Newtonsoft.Json;
 using System.IO;
 
+/// <summary>
+/// Class which contain information about level.
+/// </summary>
 public class Level : MonoBehaviour
 {
     public List<ActiveHuman> ActiveHumans;
     public List<StaticHuman> StaticHumans;
     public Environment RoomEnvironment;
-    //public Level(ActiveHuman[] activeHumans, StaticHuman[] staticHumans, Environment environment)
-    //{
-    //    ActiveHumans = activeHumans;
-    //    StaticHumans = staticHumans;
-    //    RoomEnvironment = environment;
-    //}
-
-
-    //private static JsonSerializerSettings Settings = new JsonSerializerSettings
-    //{
-    //    TypeNameHandling = TypeNameHandling.Objects,
-    //    Formatting = Formatting.Indented
-    //};
-
-    //public void Write(string jsonFile)
-    //{
-    //    string jsonString = JsonConvert.SerializeObject(this, Settings);
-    //    File.WriteAllText(jsonFile, jsonString);
-    //}
-
-    //public static Level Read(string jsonFile)
-    //{
-    //    string jsonStringOutput = File.ReadAllText(jsonFile);
-    //    return JsonConvert.DeserializeObject<Level>(jsonStringOutput, Settings);
-    //}
+    public static int HumansCount;
+    
+    void Start()
+    {
+        HumansCount = ActiveHumans.Count + StaticHumans.Count;
+    }
+    
 
 }
